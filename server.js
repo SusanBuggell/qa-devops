@@ -1,17 +1,48 @@
 const express = require('express')
 const path = require('path')
+const cors = require('cors');
 const app = express()
 const {bots, playerRecord} = require('./data')
 const {shuffleArray} = require('./utils')
 
+// include and initialize the rollbar library with your access token
+var Rollbar = require('rollbar')
+var rollbar = new Rollbar({
+  accessToken: '349a2d7a7f2149d58d4275a1cf34768e',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
+
+// record a generic message and send it to Rollbar
+rollbar.log('Hello world!')
+
+app.use(cors());
 app.use(express.json())
+
+app.use(express.static("public"));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+    rollbar.log("index.html sent")
+})
+app.get("/styles", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.css"));
+  rollbar.log("index.css sent")
+});
+app.get("/js", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.js"));
+  rollbar.log("index.js sent")
+});
+
+
 
 app.get('/api/robots', (req, res) => {
     try {
-        res.status(200).send(botsArr)
+        res.status(200).send(bots)
+        rollbar.log("bots successrully sent")
     } catch (error) {
         console.log('ERROR GETTING BOTS', error)
         res.sendStatus(400)
+        rollbar.error("Error Getting Bots")
     }
 })
 
@@ -21,9 +52,11 @@ app.get('/api/robots/five', (req, res) => {
         let choices = shuffled.slice(0, 5)
         let compDuo = shuffled.slice(6, 8)
         res.status(200).send({choices, compDuo})
+        rollbar.log("5 userbots and 2 computer bots sent")
     } catch (error) {
         console.log('ERROR GETTING FIVE BOTS', error)
         res.sendStatus(400)
+        rollbar.errorHandler()
     }
 })
 
@@ -48,8 +81,10 @@ app.post('/api/duel', (req, res) => {
         if (compHealthAfterAttack > playerHealthAfterAttack) {
             playerRecord.losses++
             res.status(200).send('You lost!')
+            rollbar.log("computer won")
         } else {
-            playerRecord.losses++
+            playerRecord.wins++
+            rollbar.log("player won")
             res.status(200).send('You won!')
         }
     } catch (error) {
@@ -72,3 +107,9 @@ const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Listening on port ${port}`)
 })
+
+// let shuffled = shuffleArray(bots)
+// console.log(shuffled.every((value, index) => value === bots[index] ))
+// console.log ("shuffled(string literal) = " , shuffled)
+// console.log("bots = " , bots)
+// // a.every((val, index) => val === b[index])

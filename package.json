@@ -1,10 +1,10 @@
 {
   "name": "rollbar-test",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -16,10 +16,20 @@
     "express": "^4.17.1",
     "geckodriver": "^2.0.4",
     "jest": "^27.3.1",
+    "path": "^0.12.7",
     "rollbar": "^2.24.0",
     "selenium-webdriver": "^4.0.0",
     "ts-jest": "^27.0.7",
     "ts-node": "^10.4.0",
     "typescript": "^4.4.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SusanBuggell/qa-devops.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SusanBuggell/qa-devops/issues"
+  },
+  "homepage": "https://github.com/SusanBuggell/qa-devops#readme",
+  "description": ""
 }

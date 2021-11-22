@@ -3,6 +3,7 @@ const choicesDiv = document.querySelector('#choices')
 const compDuoDiv = document.querySelector('#comp-duo')
 const playerDuoDiv = document.querySelector('#player-duo')
 const seeAllBtn = document.querySelector('#see-all')
+const hideAllBtn = document.querySelector('#hide-all')
 const allBotsDiv = document.querySelector('#all-bots')
 const duelBtn = document.querySelector('#duel')
 const resultsText = document.querySelector('#results')
@@ -17,6 +18,7 @@ let choices = []
 let compDuo = []
 let playerDuo = []
 
+hideAllBtn.classList.add('hide')
 duelBtn.classList.add('hide')
 playAgainBtn.classList.add('hide')
 chooseHeader.classList.add('hide')
@@ -124,6 +126,9 @@ const drawFive = () => {
             compDuo = res.data.compDuo
             renderChoices()
             drawBtn.classList.add('hide')
+        .catch(err=>{
+            console.log(err);
+        })
         })
 }
 
@@ -140,6 +145,9 @@ const duel = () => {
                 resultsText.textContent = data
                 playAgainBtn.classList.remove('hide')
                 getPlayerStats()
+            })
+            .catch(err=>{
+                console.log(err);
             })
     }, 1500)
 }
@@ -163,6 +171,9 @@ const getPlayerStats = () => {
             winsText.textContent = `Wins: ${wins}`
             lossesTest.textContent = `Losses: ${losses}`
         })
+        .catch(err=>{
+            console.log(err);
+        })
 }
 
 const getAllBots = () => {
@@ -172,13 +183,29 @@ const getAllBots = () => {
         
             data.forEach(bot => {
                 let botHtml = makeRobotDisplayCard(bot)
+                allBotsDiv.classList.remove('hide')
                 allBotsDiv.innerHTML += botHtml
+                seeAllBtn.classList.add('hide')
+                hideAllBtn.classList.remove('hide')
             })
+
+
+        })
+        .catch(err=>{
+            console.log(err);
         })
 }
 
+const hideAllBots = () => {
+    allBotsDiv.classList.add('hide')
+    hideAllBtn.classList.add('hide')
+    seeAllBtn.classList.remove('hide')   
+}
+
+
 drawBtn.addEventListener('click', drawFive)
 duelBtn.addEventListener('click', duel)
+hideAllBtn.addEventListener('click', hideAllBots)
 playAgainBtn.addEventListener('click', reset)
 seeAllBtn.addEventListener('click', getAllBots)
 
