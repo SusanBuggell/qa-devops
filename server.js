@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.get("/", (req,res) => {
-    res.sendFile(path.join(__dirname, "./public/index.html"));   
+    res.sendFile(path.join(__dirname, "./index.html"));   
 });
 app.get("/styles", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/index.css"));
@@ -30,7 +30,9 @@ app.get("/styles", (req, res) => {
 app.get("/js", (req, res) => {
     res.sendFile(path.join(__dirname, "./public/index.js"));
 });
-
+// app.use('/', express.static(path.join(__dirname, 'public/index.html')))
+// app.use('/js', express.static(path.join(__dirname, 'public/index.js')))
+// app.use('/css', express.static(path.join(__dirname, 'public/index.css')))
 
 app.get('/api/robots', (req, res) => {
     try {
