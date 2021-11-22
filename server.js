@@ -25,11 +25,11 @@ app.get('/', (req, res) => {
     rollbar.log("index.html sent")
 });
 app.get("/styles", (req, res) => {
-  res.sendFile(path.join(__dirname, ".public/index.css"));
+  res.sendFile(path.join(__dirname, "./public/index.css"));
   rollbar.log("index.css sent")
 });
 app.get("/js", (req, res) => {
-  res.sendFile(path.join(__dirname, ".public/index.js"));
+  res.sendFile(path.join(__dirname, "./public/index.js"));
   rollbar.log("index.js sent")
 });
 
