@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "geckodriver": "^2.0.4",
     "jest": "^27.3.1",
+    "node": "^17.1.0",
     "nodemon": "^2.0.15",
     "rollbar": "^2.24.0",
     "selenium": "^2.20.0",
